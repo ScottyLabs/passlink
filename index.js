@@ -86,7 +86,7 @@ class Passlink {
     onOpen,
     onRequestFail,
     onLoginError,
-    onLoginAbort,
+    onLoginClose,
     onLoginSuccess
   ) {
     return () => {
@@ -97,7 +97,7 @@ class Passlink {
         "Login with CMU Email",
         400,
         600,
-        onLoginAbort
+        onLoginClose
       );
       axios.get(signPath).then((response) => {
         if (response.data.token) {
