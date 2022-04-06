@@ -11,6 +11,13 @@ declare class Passlink {
   constructor(window: Window);
 
   /**
+   * Sets a custom API endpoint to login with.
+   *
+   * @param url The Endpoint of the Login API
+   */
+  setAPIEndpoint(url: string): void;
+
+  /**
    * Creates a function that can be passed in to a button's onClick method.
    *
    * @param signPath The path to your API's Sign Request endpoint

@@ -3,9 +3,11 @@ const axios = require("axios");
 class Passlink {
   #listener;
   #window;
+  #apiPath;
 
   constructor(window) {
     this.#listener = null;
+    this.#apiPath = "https://login.scottylabs.org";
     if (window) {
       this.#window = window;
     }
@@ -81,6 +83,10 @@ class Passlink {
     return newWindow;
   }
 
+  setAPIEndpoint(url) {
+    this.#apiPath = url;
+  }
+
   generateloginHandler(
     signPath,
     onOpen,
@@ -103,7 +109,7 @@ class Passlink {
         if (response.data.token) {
           if (loginWindow) {
             loginWindow.location.href =
-              "https://login.scottylabs.org/login/" + response.data.token;
+              this.#apiPath + "/login/" + response.data.token;
           } else if (onRequestFail) {
             onRequestFail();
           }
@@ -111,7 +117,7 @@ class Passlink {
       });
 
       const loginListener = (event) => {
-        if (event.origin !== "https://login.scottylabs.org") {
+        if (event.origin !== this.#apiPath) {
           return;
         } else if (event.data === "error") {
           if (this.#listener) {
