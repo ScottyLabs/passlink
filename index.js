@@ -105,16 +105,18 @@ class Passlink {
         600,
         onLoginClose
       );
-      axios.get(signPath).then((response) => {
-        if (response.data.token) {
-          if (loginWindow) {
-            loginWindow.location.href =
-              this.#apiPath + "/login/" + response.data.token;
-          } else if (onRequestFail) {
-            onRequestFail();
+      axios
+        .get(signPath, { params: { origin: this.#window.location.origin } })
+        .then((response) => {
+          if (response.data.token) {
+            if (loginWindow) {
+              loginWindow.location.href =
+                this.#apiPath + "/login/" + response.data.token;
+            } else if (onRequestFail) {
+              onRequestFail();
+            }
           }
-        }
-      });
+        });
 
       const loginListener = (event) => {
         if (event.origin !== this.#apiPath) {
